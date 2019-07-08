@@ -1,0 +1,3 @@
+python
+>>> 
+import sys; sys.ps1={!r};sys.ps2={!r}

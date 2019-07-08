@@ -1,0 +1,4 @@
+ghci
+Prelude> 
+:set prompt [PEXPECT_PROMPT>
+:set prompt-cont [PEXPECT_PROMPT+
