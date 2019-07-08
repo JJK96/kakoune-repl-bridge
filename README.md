@@ -5,8 +5,8 @@ This is the generalized version of https://github.com/JJK96/kakoune-python-bridg
 
 # Dependencies
 
-It depends on the repl shell for the programming languages of choice.
-In addition it uses the python libraries defined in `requirements.txt`.
+It depends on the repl shell for the programming languages of choice.  
+In addition it uses the python libraries defined in [requirements.txt](./requirements.txt).  
 
 # Install
 
@@ -30,7 +30,7 @@ Clone this repository to your autoload dir: `~/.config/kak/autoload/`.
 
 # supported languages
 
-See files in the `config` directory for a list of supported languages.
+See files in the [config](/config) directory for a list of supported languages.
 
 New languages can easily be added, see [configuration](#configuration)
 
@@ -66,7 +66,7 @@ haskell:
 
 # configuration
 
-Config files for languages are stored in the config directory.
+Config files for languages are stored in the [config](/config) directory.
 
 A new language can be added by creating a new file with as name the language.
 
@@ -81,7 +81,7 @@ additional commands
 
 See the existing files for examples.
 
-In `config/haskell` the continuation prompt is set using the additional commands, so that is also a possibility.
+In [config/haskell](/config/haskell) the continuation prompt is set using the additional commands, so that is also a possibility.
 
 # commands
 
