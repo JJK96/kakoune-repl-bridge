@@ -85,7 +85,7 @@ In [config/haskell](/config/haskell) the continuation prompt is set using the ad
 
 # commands
 
-`repl-bridge <language> <cmd>` Run `repl-bridge-cmd <language>`
+`repl-bridge <language> <cmd>` Run `repl-bridge-cmd <language>`  
 `repl-bridge-start <language>` Start the repl bridge  
 `repl-bridge-stop <language>` Stop the repl bridge  
 `repl-bridge-send <language>` Send the current selections through the repl bridge  
