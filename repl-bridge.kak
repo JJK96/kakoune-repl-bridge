@@ -2,7 +2,28 @@
 
 declare-option -hidden str repl_bridge_folder "/tmp/kakoune_repl_bridge/%val{session}"
 declare-option -hidden str repl_bridge_source %sh{echo "${kak_source%/*}"}
-declare-option -hidden str-list repl_bridge_output
+declare-option bool repl_bridge_fifo_enabled false
+
+define-command -docstring 'repl-bridge-enable-fifo <language>: Open FIFO and start terminal' \
+repl-bridge-enable-fifo -params 1 %{
+    evaluate-commands %sh{
+        lang=$1
+        folder=$kak_opt_repl_bridge_folder/$lang
+        mkfifo $folder/fifo
+        echo "terminal tail -f $folder/fifo"
+    }
+    set-option global repl_bridge_fifo_enabled true
+}
+
+define-command -docstring 'repl-bridge-disable-fifo <language>: Close FIFO' \
+repl-bridge-disable-fifo -params 1 %{
+    nop %sh{
+        lang=$1
+        folder=$kak_opt_repl_bridge_folder/$lang
+        rm $folder/fifo
+    }
+    set-option global repl_bridge_fifo_enabled false
+}
 
 define-command -docstring 'repl-bridge-start <language>: Create FIFOs and start repl' \
     -params 1 \
@@ -41,24 +62,26 @@ define-command -docstring 'repl-bridge-stop <language>: Stop repl and remove FIF
 define-command -docstring 'repl-bridge-send <language> [command]: Evaluate selections or argument using repl-bridge return result in " register' \
 repl-bridge-send -params 1..2 %{
     repl-bridge-start %arg{1}
-    set-option global repl_bridge_output
     evaluate-commands %sh{
         lang=$1
         shift
         folder=$kak_opt_repl_bridge_folder/$lang
+        cat_command="cat $folder/out"
+        if $kak_opt_repl_bridge_fifo_enabled; then
+            cat_command="$cat_command | tee -a $folder/fifo"
+        fi
 
         if [ $# -eq 0 ]; then
             eval set -- "$kak_quoted_selections"
         fi
         out=""
         while [ $# -gt 0 ]; do
-            output=$(cat $folder/out) && echo "set-option -add global repl_bridge_output %{$output}" &
+            output=$(eval $cat_command) && echo "set-register dquote %{$output}" &
             echo "$1" > $folder/in &
             wait
             shift
         done
     }
-    set-register dquote %opt{repl_bridge_output}
 }
 
 define-command repl-bridge -params 2..3 \
