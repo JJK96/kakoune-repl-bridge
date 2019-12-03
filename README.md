@@ -74,8 +74,8 @@ The contents of the file are as follows:
 
 ```
 repl cmd
-initial prompt 
-command to set the new prompt to [PEXPECT_PROMPT> and the continuation prompt to [PEXPECT_PROMPT+
+prompt 
+continuation prompt
 additional commands
 ```
 
